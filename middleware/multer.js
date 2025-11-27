@@ -1,7 +1,10 @@
 import multer from "multer";
 
-const storage = multer.memoryStorage(); // ✔ No disk, safe on Render
-
-const upload = multer({ storage });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 1024 * 1024 * 1024, // 1GB
+  },
+});
 
 export default upload;

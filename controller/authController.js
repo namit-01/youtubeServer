@@ -34,7 +34,7 @@ export const signUp = async (req, res) => {
     // Upload photo if available
     let photoUrl = null;
     if (req.file) {
-      photoUrl = await uploadOnCloudinary(req.file.path); // Should return secure_url
+      photoUrl = await uploadOnCloudinary(req.file.buffer); // Should return secure_url
     }
 
     // Hash password

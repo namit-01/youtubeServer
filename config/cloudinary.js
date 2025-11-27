@@ -1,7 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
-import fs from "fs";
 
-const uploadOnCloudinary = async (filePath) => {
+const uploadOnCloudinary = async (fileBuffer) => {
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -9,27 +8,21 @@ const uploadOnCloudinary = async (filePath) => {
   });
 
   try {
-    if (!filePath) return null;
+    if (!fileBuffer) return null;
 
-    const result = await cloudinary.uploader.upload(filePath, {
-      resource_type: "auto",
+    const result = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ resource_type: "auto" }, (error, uploadResult) => {
+          if (error) reject(error);
+          else resolve(uploadResult);
+        })
+        .end(fileBuffer);
     });
-
-    // Delete local file safely
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
 
     return result.secure_url;
   } catch (err) {
     console.log("Cloudinary upload error:", err);
-
-    // Delete local file if exists, avoid crash
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-
-    return null; // return null instead of throwing
+    return null;
   }
 };
 
