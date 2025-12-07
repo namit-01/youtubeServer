@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRouter from "./route/authRoute.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import userRouter from "./route/userRoute.js";
 
 dotenv.config();
 
@@ -14,13 +15,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://youtube-yldo.onrender.com",
+    origin: ["https://youtube-yldo.onrender.com", "http://localhost:5173"],
     credentials: true,
   })
 );
 
 // Routes
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
 
 const start = async () => {
   try {
