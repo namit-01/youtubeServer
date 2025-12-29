@@ -59,8 +59,8 @@ export const signUp = async (req, res) => {
     // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // change to true in production with HTTPS
-      sameSite: "strict",
+      secure: true, // change to true in production with HTTPS
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
