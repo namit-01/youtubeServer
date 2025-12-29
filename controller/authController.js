@@ -98,6 +98,7 @@ export const signIn = async (req, res) => {
     return res.status(200).json({
       message: "User logged in successfully",
       user,
+      token,
     });
   } catch (err) {
     return res.status(500).json({
@@ -156,7 +157,7 @@ export const googleSiginUp = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json(user);
+    return res.status(200).json(user, token);
   } catch (err) {
     return res.status(500).json({ message: `GoogleAuth error ${err}` });
   }
