@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://youtube-yldo.onrender.com", "http://localhost:5173"],
+    origin: "https://youtube-yldo.onrender.com",
     credentials: true,
   })
 );
